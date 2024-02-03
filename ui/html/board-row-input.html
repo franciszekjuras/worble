@@ -1,0 +1,8 @@
+<div class="board-row" x-data="{input: []}" @keydown.backspace.window="input.pop();"
+    @keydown.window='if(input.length < 5 && $event.key.length == 1 && "qwertyuiopasdfghjklzxcvbnm".includes($event.key)){input.push($event.key);}'>
+    <div class="tile" x-text="input[0]"></div>
+    <div class="tile" x-text="input[1]"></div>
+    <div class="tile" x-text="input[2]"></div>
+    <div class="tile" x-text="input[3]"></div>
+    <div class="tile" x-text="input[4]"></div>
+</div>

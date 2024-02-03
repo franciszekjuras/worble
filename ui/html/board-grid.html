@@ -1,0 +1,5 @@
+<div class="board-grid">
+    {{range .Guesses}} {{template "board-row-guess.html" .}} {{end}}
+    {{if lt (len .Guesses) 5}} {{template "board-row-input.html"}} {{end}}
+    {{range (span (len .Guesses) 4)}} {{template "board-row-empty.html"}} {{end}}
+</div>
