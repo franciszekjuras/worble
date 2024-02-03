@@ -1,4 +1,6 @@
-<div class="board-row" x-data="{input: []}" @keydown.backspace.window="input.pop();"
+<div class="board-row" hx-trigger="keydown[key=='Enter'] from:body" x-data="{input: []}"
+    @keydown.backspace.window="input.pop();"
+    @keydown.enter.window="vals={'guess': input.join('')}; htmx.ajax('POST', '/guess', {target:'#game', swap:'outerHTML', values:vals})"
     @keydown.window='if(input.length < 5 && $event.key.length == 1 && "qwertyuiopasdfghjklzxcvbnm".includes($event.key)){input.push($event.key);}'>
     <div class="tile" x-text="input[0]"></div>
     <div class="tile" x-text="input[1]"></div>
