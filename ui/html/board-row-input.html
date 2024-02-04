@@ -1,10 +1,10 @@
-<div class="board-row" hx-trigger="keydown[key=='Enter'] from:body" x-data="{input: []}"
-    @keydown.backspace.window="input.pop();"
-    @keydown.enter.window="vals={'guess': input.join('')}; htmx.ajax('POST', '/guess', {target:'#game', swap:'outerHTML', values:vals})"
+<div class="board-row" x-data="{input: []}" hx-trigger="keydown[key=='Enter'] from:body" hx-post="/guess"
+    hx-target="#game" hx-include="[name='guess']" hx-swap="outerHTML" @keydown.backspace.window="input.pop();"
     @keydown.window='if(input.length < 5 && $event.key.length == 1 && "qwertyuiopasdfghjklzxcvbnm".includes($event.key)){input.push($event.key);}'>
     <div class="tile" x-text="input[0]"></div>
     <div class="tile" x-text="input[1]"></div>
     <div class="tile" x-text="input[2]"></div>
     <div class="tile" x-text="input[3]"></div>
     <div class="tile" x-text="input[4]"></div>
+    <input type="hidden" name="guess" :value="input.join('')" />
 </div>

@@ -5,15 +5,16 @@ import (
 	"net/http"
 
 	"worble.ow6.foo/app/handlers"
+	"worble.ow6.foo/appui/uitempl"
 )
 
 func main() {
-	err := handlers.InitTemplates()
+	ts, err := uitempl.InitTemplates()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln("Failed to initialize templates: ", err)
 	}
 
-	app := handlers.App{}
+	app := handlers.App{Ts: ts}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", app.Home)
