@@ -41,12 +41,14 @@ func makeBoard(game worble.Game) Board {
 	var board Board
 	guessNum := len(game.Guesses)
 	for i, guess := range game.Guesses {
-		board[i] = map[string]any{"Filled": BoardRowFilled{guess, i == guessNum-1}}
+		board[i] = map[string]any{"Filled": BoardRowFilled{Guess: guess, Animate: i == guessNum-1}}
 	}
-	if guessNum < 5 {
+	emptyRowsStart := guessNum
+	if guessNum < 5 && game.Result == nil {
 		board[guessNum] = map[string]any{"Input": BoardRowInput{}}
+		emptyRowsStart++
 	}
-	for i := guessNum + 1; i < 5; i++ {
+	for i := emptyRowsStart; i < 5; i++ {
 		board[i] = map[string]any{"Empty": BoardRowEmpty{}}
 	}
 	return board
@@ -73,11 +75,6 @@ func (app *App) Home(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-
-	// var game worble.Game
-	// newGuess := worble.GuessWord{{'g', worble.GuessCorrect}, {'u', worble.GuessIncorrect},
-	// 	{'e', worble.GuessPresent}, {'s', worble.GuessIncorrect}, {'s', worble.GuessIncorrect}}
-	// game.Guesses = append(game.Guesses, newGuess)
 	err := ts.ExecuteTemplate(w, "game-full.html", makeBoard(app.game))
 	if err != nil {
 		log.Println(err.Error())
