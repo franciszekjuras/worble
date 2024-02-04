@@ -13,9 +13,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	app := handlers.App{}
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handlers.Home)
-	mux.HandleFunc("/guess", handlers.PostGuess)
+	mux.HandleFunc("/", app.Home)
+	mux.HandleFunc("/guess", app.PostGuess)
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
