@@ -12,7 +12,7 @@ type BoardRowInput struct {
 
 type BoardRowEmpty struct{}
 
-type Board [5]map[string]any
+type Board [worble.Rounds]map[string]any
 
 func MakeBoard(game worble.Game) Board {
 	var board Board
@@ -21,11 +21,11 @@ func MakeBoard(game worble.Game) Board {
 		board[i] = map[string]any{"Filled": BoardRowFilled{Guess: guess, Animate: i == guessNum-1}}
 	}
 	emptyRowsStart := guessNum
-	if guessNum < 5 && game.Result == nil {
+	if guessNum < worble.Rounds && game.Result == nil {
 		board[guessNum] = map[string]any{"Input": BoardRowInput{}}
 		emptyRowsStart++
 	}
-	for i := emptyRowsStart; i < 5; i++ {
+	for i := emptyRowsStart; i < worble.Rounds; i++ {
 		board[i] = map[string]any{"Empty": BoardRowEmpty{}}
 	}
 	return board

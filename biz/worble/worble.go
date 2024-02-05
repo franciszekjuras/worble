@@ -4,6 +4,9 @@ import (
 	"slices"
 )
 
+const Rounds = 6
+const WordLen = 5
+
 const GuessCorrect = "correct"
 const GuessPresent = "present"
 const GuessIncorrect = "incorrect"
@@ -14,9 +17,9 @@ type Guess struct {
 	Status string
 }
 
-type Answer [5]rune
+type Answer [WordLen]rune
 
-type GuessScore [5]Guess
+type GuessScore [WordLen]Guess
 
 type GameResult struct {
 	FoundAnswer  bool
@@ -57,7 +60,7 @@ func (game *Game) AddGuess(guessInput string) {
 		return
 	}
 	guess := []rune(guessInput)
-	if len(guess) != 5 {
+	if len(guess) != WordLen {
 		return
 	}
 	answer := Answer{'b', 'r', 'a', 'v', 'e'}
@@ -65,7 +68,7 @@ func (game *Game) AddGuess(guessInput string) {
 	game.Guesses = append(game.Guesses, guessScore)
 	if guessScore.isComplete() {
 		game.Result = &GameResult{FoundAnswer: true, NumOfGuesses: len(game.Guesses)}
-	} else if len(game.Guesses) == 5 {
+	} else if len(game.Guesses) == Rounds {
 		game.Result = &GameResult{FoundAnswer: false}
 	}
 }
