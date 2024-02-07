@@ -1,4 +1,4 @@
-<div class="board-row" x-data="{input: []}" hx-trigger="keydown[key=='Enter'] from:body" hx-post="/guess"
+<div class="board-row" x-data="{input: []}" hx-trigger="keydown[key=='Enter'] from:body" hx-post="/play"
     hx-target="#game" hx-include="[name='guess']" hx-swap="outerHTML" @keydown.backspace.window="input.pop();"
     @keydown.window='if(input.length < 5 && $event.key.length == 1 && "qwertyuiopasdfghjklzxcvbnm".includes($event.key)){input.push($event.key);}'>
     <div class="tile" x-text="input[0]"></div>

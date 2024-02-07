@@ -29,6 +29,7 @@ type GameResult struct {
 type Game struct {
 	Guesses []GuessScore
 	Result  *GameResult
+	Answer  Answer
 }
 
 func (guessScore *GuessScore) isComplete() bool {
@@ -55,6 +56,10 @@ func (answer *Answer) scoreGuess(guess []rune) GuessScore {
 	return score
 }
 
+func NewGame() Game {
+	return Game{Answer: Answer{'b', 'r', 'a', 'v', 'e'}}
+}
+
 func (game *Game) AddGuess(guessInput string) {
 	if game.Result != nil {
 		return
@@ -63,8 +68,7 @@ func (game *Game) AddGuess(guessInput string) {
 	if len(guess) != WordLen {
 		return
 	}
-	answer := Answer{'b', 'r', 'a', 'v', 'e'}
-	guessScore := answer.scoreGuess(guess)
+	guessScore := game.Answer.scoreGuess(guess)
 	game.Guesses = append(game.Guesses, guessScore)
 	if guessScore.isComplete() {
 		game.Result = &GameResult{FoundAnswer: true, NumOfGuesses: len(game.Guesses)}

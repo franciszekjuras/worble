@@ -14,19 +14,49 @@ type App struct {
 	Ts   *template.Template
 }
 
-func (app *App) PostGuess(w http.ResponseWriter, r *http.Request) {
+func (app *App) PlayGet(w http.ResponseWriter, r *http.Request) {
+	err := app.Ts.ExecuteTemplate(w, "game-full.html", uimodels.MakeGame(&app.Game))
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
+func (app *App) PlayPost(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
 		http.NotFound(w, r)
 	}
 	input := r.Form.Get("guess")
-	log.Println("input:", input)
 	app.Game.AddGuess(input)
 
-	err = app.Ts.ExecuteTemplate(w, "game.html", uimodels.MakeBoard(app.Game))
+	err = app.Ts.ExecuteTemplate(w, "game.html", uimodels.MakeGame(&app.Game))
 	if err != nil {
 		log.Println(err.Error())
+	}
+
+	if app.Game.Result != nil {
+		app.Game = worble.NewGame()
+	}
+}
+
+func (app *App) PlayDelete(w http.ResponseWriter, r *http.Request) {
+	app.Game = worble.NewGame()
+
+	err := app.Ts.ExecuteTemplate(w, "game.html", uimodels.MakeGame(&app.Game))
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
+func (app *App) Play(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		app.PlayGet(w, r)
+	} else if r.Method == http.MethodPost {
+		app.PlayPost(w, r)
+	} else if r.Method == http.MethodDelete {
+		app.PlayDelete(w, r)
 	}
 }
 
@@ -35,8 +65,5 @@ func (app *App) Home(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	err := app.Ts.ExecuteTemplate(w, "game-full.html", uimodels.MakeBoard(app.Game))
-	if err != nil {
-		log.Println(err.Error())
-	}
+	http.Redirect(w, r, "/play", http.StatusSeeOther)
 }

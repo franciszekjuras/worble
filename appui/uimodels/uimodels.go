@@ -14,7 +14,12 @@ type BoardRowEmpty struct{}
 
 type Board [worble.Rounds]map[string]any
 
-func MakeBoard(game worble.Game) Board {
+type Game struct {
+	Board  Board
+	Result *worble.GameResult
+}
+
+func makeBoard(game *worble.Game) Board {
 	var board Board
 	guessNum := len(game.Guesses)
 	for i, guess := range game.Guesses {
@@ -29,4 +34,11 @@ func MakeBoard(game worble.Game) Board {
 		board[i] = map[string]any{"Empty": BoardRowEmpty{}}
 	}
 	return board
+}
+
+func MakeGame(game *worble.Game) Game {
+	var gameUi Game
+	gameUi.Board = makeBoard(game)
+	gameUi.Result = game.Result
+	return gameUi
 }

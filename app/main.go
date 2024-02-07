@@ -6,6 +6,7 @@ import (
 
 	"worble.ow6.foo/app/handlers"
 	"worble.ow6.foo/appui/uitempl"
+	"worble.ow6.foo/biz/worble"
 )
 
 func main() {
@@ -14,11 +15,11 @@ func main() {
 		log.Fatalln("Failed to initialize templates: ", err)
 	}
 
-	app := handlers.App{Ts: ts}
+	app := handlers.App{Ts: ts, Game: worble.NewGame()}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", app.Home)
-	mux.HandleFunc("/guess", app.PostGuess)
+	mux.HandleFunc("/play", app.Play)
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
