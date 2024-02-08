@@ -12,6 +12,9 @@ body {
     --bg-1: rgb(234, 234, 234);
     --bg-2: rgb(243, 243, 243);
     --fg-1: rgb(0, 0, 0);
+    --fg-2: rgb(67, 67, 67);
+    --bg-alt: rgb(77, 77, 77);
+    --fg-alt: rgb(255, 255, 255);
     --fg-primary: rgb(92, 30, 143);
     --fg-lines: rgb(63, 63, 63);
     --bg-transp: rgba(0, 0, 0, 0);
@@ -21,14 +24,21 @@ body {
     --bg-primary: rgb(92, 30, 143);
     --bg-primary-hl: rgb(104, 61, 140);
     --fg-on-primary: rgb(255, 255, 255);
+
+    --bg-correct: rgb(164, 230, 131);
+    --bg-present: rgb(255, 215, 141);
+    --bg-incorrect: rgb(212, 212, 212);
 }
 
 body.dark {
     --bg-1: rgb(23, 23, 23);
     --bg-2: rgb(42, 42, 42);
+    --bg-alt: rgb(75, 75, 75);
+    --fg-alt: rgb(255, 255, 255);
     --fg-1: rgb(255, 255, 255);
+    --fg-2: rgb(209, 209, 209);
     --fg-primary: rgb(232, 203, 255);
-    --fg-lines: rgb(135, 135, 135);
+    --fg-lines: rgb(196, 196, 196);
     --bg-transp: rgba(0, 0, 0, 0);
     --bg-transp-hl: rgba(255, 255, 255, 0.05);
     --bg-tone-primary: rgb(70, 56, 95);
@@ -36,6 +46,10 @@ body.dark {
     --bg-primary: rgb(100, 59, 134);
     --bg-primary-hl: rgb(111, 65, 151);
     --fg-on-primary: rgb(255, 255, 255);
+
+    --bg-correct: rgb(65, 120, 39);
+    --bg-present: rgb(148, 109, 36);
+    --bg-incorrect: rgb(77, 77, 77);
 }
 
 body {
@@ -120,28 +134,67 @@ body {
 }
 
 .tile {
+    background-color: var(--bg-2);
+    margin: 5%;
+    padding: 0;
+    border-radius: 8px;
+    position: relative;
+}
+
+.tile-letter {
     display: flex;
+    padding: 0 3% 12% 0;
     font-size: min(30px, 10vw);
     font-weight: 700;
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
     color: var(--fg-1);
-    background-color: var(--bg-2);
-    margin: 5%;
-    padding: 0;
-    border-radius: 5%;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 9;
 }
 
+.tile-points {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1.4em;
+    width: 1.4em;
+    font-size: min(12px, 4vw);
+    font-weight: 600;
+    background-color: var(--bg-transp);
+    color: var(--fg-1);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--fg-lines);
+    position: absolute;
+    padding: 0 0 0 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 6px;
+    z-index: 9;
+}
+
+.tile-points.tripled {
+    border-style: none;
+    background-color: var(--bg-primary);
+    color: var(--fg-on-primary);
+}
+
+.tile-points:empty {
+    border-style: none
+}
 
 .correct {
-    background-color: rgb(164, 230, 131);
+    background-color: var(--bg-correct)
 }
 
 .present {
-    background-color: rgb(255, 215, 141);
+    background-color: var(--bg-present)
 }
 
 .incorrect {
-    background-color: rgb(212, 212, 212);
+    background-color: var(--bg-incorrect)
 }

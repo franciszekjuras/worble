@@ -1,10 +1,38 @@
-<div class="board-row" x-data="{input: []}" hx-trigger="keydown[key=='Enter'] from:body" hx-post="/play"
-    hx-target="#game" hx-include="[name='guess']" hx-swap="outerHTML" @keydown.backspace.window="input.pop();"
+<div class="board-row" x-data="{
+        input: [],
+        getPoints(l) {
+            if (!l) return '';
+            if ('aeioulnstr'.includes(l)) return 1;
+            if ('dg'.includes(l)) return 2;
+            if ('bcmp'.includes(l)) return 3;
+            if ('fhvwy'.includes(l)) return 4;
+            if ('k'.includes(l)) return 5;
+            if ('jx'.includes(l)) return 8;
+            if ('qz'.includes(l)) return 10;
+            return '';
+        } 
+    }" hx-trigger="keydown[key=='Enter'] from:body" hx-post="/play" hx-target="#game" hx-include="[name='guess']"
+    hx-swap="outerHTML" @keydown.backspace.window="input.pop();"
     @keydown.window='if(input.length < 5 && $event.key.length == 1 && "qwertyuiopasdfghjklzxcvbnm".includes($event.key)){input.push($event.key);}'>
-    <div class="tile" x-text="input[0]"></div>
-    <div class="tile" x-text="input[1]"></div>
-    <div class="tile" x-text="input[2]"></div>
-    <div class="tile" x-text="input[3]"></div>
-    <div class="tile" x-text="input[4]"></div>
+    <div class="tile">
+        <div class="tile-letter" x-text="input[0]"></div>
+        <div class="tile-points" x-text="getPoints(input[0])"></div>
+    </div>
+    <div class="tile">
+        <div class="tile-letter" x-text="input[1]"></div>
+        <div class="tile-points" x-text="getPoints(input[1])"></div>
+    </div>
+    <div class="tile">
+        <div class="tile-letter" x-text="input[2]"></div>
+        <div class="tile-points" x-text="getPoints(input[2])"></div>
+    </div>
+    <div class="tile">
+        <div class="tile-letter" x-text="input[3]"></div>
+        <div class="tile-points" x-text="getPoints(input[3])"></div>
+    </div>
+    <div class="tile">
+        <div class="tile-letter" x-text="input[4]"></div>
+        <div class="tile-points" x-text="getPoints(input[4])"></div>
+    </div>
     <input type="hidden" name="guess" :value="input.join('')" />
 </div>

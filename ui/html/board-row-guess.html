@@ -1,4 +1,11 @@
 <!-- BoardRowFilled -->
 <div class="board-row">
-    {{range $i, $e := .Guess}} <div class="tile {{$e.Status}}">{{printf "%c" $e.Letter}}</div>{{end}}
+    {{range $i, $e := .Guess}}
+    <div class="tile {{$e.Status}}">
+        <div class="tile-letter">
+            {{printf "%c" $e.Letter}}
+        </div>
+        <div class="tile-points">{{if ne $e.Points 0}}{{$e.Points}}{{end}}</div>
+    </div>
+    {{end}}
 </div>
