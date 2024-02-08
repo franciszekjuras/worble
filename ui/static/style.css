@@ -6,6 +6,7 @@
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 400;
+    color: var(--fg-1);
 }
 
 body {
@@ -109,6 +110,21 @@ body {
 
 .btn-primary:hover {
     background-color: var(--bg-primary-hl);
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.logo-b {
+    background-color: var(--bg-tone-primary);
+    color: var(--fg-1);
+    border-radius: 6px;
+    height: 1.1em;
+    width: 1.1em;
+    margin-left: 0.1em;
+    transform: rotate(45deg)
 }
 
 .card {

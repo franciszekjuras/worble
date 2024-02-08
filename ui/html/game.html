@@ -1,5 +1,10 @@
 <!-- uimodels.Game -->
 <div class="flex-v-nw ac" id="game">
-    {{template "board-grid.html" .Board}}
+    <div class="flex-h-nw ac jc">
+        <div class="logo">Wor</div>
+        <div class="logo logo-b flex-v-nw ac jc">:B</div>
+        <div class="logo">le</div>
+    </div>
     {{template "game-control.html" .Result}}
+    {{template "board-grid.html" .Board}}
 </div>

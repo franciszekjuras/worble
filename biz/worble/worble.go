@@ -1,5 +1,7 @@
 package worble
 
+import "math/rand"
+
 const Rounds = 6
 const WordLen = 5
 
@@ -91,7 +93,10 @@ func (answer *Answer) scoreGuess(guess []rune) GuessScore {
 }
 
 func NewGame() Game {
-	return Game{Answer: Answer{'b', 'r', 'a', 'v', 'e'}}
+	game := Game{}
+	answer := wordsAnswers[rand.Intn(len(wordsAnswers))]
+	copy(game.Answer[:], []rune(answer))
+	return game
 }
 
 func (game *Game) AddGuess(guessInput string) {
@@ -100,6 +105,9 @@ func (game *Game) AddGuess(guessInput string) {
 	}
 	guess := []rune(guessInput)
 	if len(guess) != WordLen {
+		return
+	}
+	if _, ok := wordsValid[guessInput]; !ok {
 		return
 	}
 	guessScore := game.Answer.scoreGuess(guess)
