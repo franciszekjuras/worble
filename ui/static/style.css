@@ -1,10 +1,13 @@
 * {
+    --font-size-normal: 14px;
+    --font-size-small: 12px;
+
     box-sizing: border-box;
     margin: 0;
     border: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    font-size: var(--font-size-normal);
     font-weight: 400;
     color: var(--fg-1);
 }
@@ -14,12 +17,15 @@ body {
     --bg-2: rgb(243, 243, 243);
     --fg-1: rgb(0, 0, 0);
     --fg-2: rgb(67, 67, 67);
+    --fg-3: rgb(110, 110, 110);
     --bg-alt: rgb(77, 77, 77);
     --fg-alt: rgb(255, 255, 255);
     --fg-primary: rgb(92, 30, 143);
     --fg-lines: rgb(63, 63, 63);
     --bg-transp: rgba(0, 0, 0, 0);
     --bg-transp-hl: rgba(0, 0, 0, 0.07);
+    --bg-neutral: rgb(209, 209, 209);
+    --bg-tone-neutral: rgb(225, 225, 225);
     --bg-tone-primary: rgb(211, 201, 227);
     --bg-tone-primary-hl: rgb(196, 186, 214);
     --bg-primary: rgb(92, 30, 143);
@@ -38,10 +44,13 @@ body.dark {
     --fg-alt: rgb(255, 255, 255);
     --fg-1: rgb(255, 255, 255);
     --fg-2: rgb(209, 209, 209);
+    --fg-3: rgb(161, 161, 161);
     --fg-primary: rgb(232, 203, 255);
     --fg-lines: rgb(196, 196, 196);
     --bg-transp: rgba(0, 0, 0, 0);
     --bg-transp-hl: rgba(255, 255, 255, 0.05);
+    --bg-neutral: rgb(77, 77, 77);
+    --bg-tone-neutral: rgb(45, 45, 45);
     --bg-tone-primary: rgb(70, 56, 95);
     --bg-tone-primary-hl: rgb(79, 67, 102);
     --bg-primary: rgb(100, 59, 134);
@@ -55,6 +64,10 @@ body.dark {
 
 body {
     background-color: var(--bg-1);
+}
+
+button {
+    cursor: pointer;
 }
 
 .flex-v-nw {
@@ -112,6 +125,41 @@ body {
     background-color: var(--bg-primary-hl);
 }
 
+.key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.25em 0.15em;
+    height: 2.2em;
+    width: 2em;
+    font-weight: 600;
+    border-radius: 6px;
+    text-transform: capitalize;
+    background-color: var(--bg-neutral);
+    color: var(--fg-1);
+}
+
+.key-incorrect {
+    background-color: var(--bg-tone-neutral);
+    color: var(--fg-3);
+}
+
+.key-correct {
+    background-color: var(--bg-correct)
+}
+
+.key-present {
+    background-color: var(--bg-present)
+}
+
+.key-wide {
+    width: 3.2em;
+}
+
+.text-small {
+    font-size: var(--font-size-small);
+}
+
 .logo {
     font-weight: 700;
     font-size: 40px;
@@ -159,7 +207,7 @@ body {
 
 .tile-letter {
     display: flex;
-    padding: 0 3% 12% 0;
+    padding: 0 0% 10% 0;
     font-size: min(30px, 10vw);
     font-weight: 700;
     justify-content: center;
@@ -182,7 +230,7 @@ body {
     font-weight: 600;
     background-color: var(--bg-transp);
     color: var(--fg-1);
-    border-style: solid;
+    border-style: none;
     border-width: 1px;
     border-color: var(--fg-lines);
     position: absolute;

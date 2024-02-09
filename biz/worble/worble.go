@@ -5,15 +5,19 @@ import "math/rand"
 const Rounds = 6
 const WordLen = 5
 
-const GuessCorrect = "correct"
-const GuessPresent = "present"
-const GuessIncorrect = "incorrect"
+const BonusNone = 1
+const BonusDouble = 2
+const BonusTriple = 3
+
+const GuessIncorrect = 1
+const GuessPresent = 2
+const GuessCorrect = 3
 
 type Guess struct {
 	Letter rune
 	Points int
 	// should be one of Guess*
-	Status string
+	Status int
 }
 
 type Answer [WordLen]rune
@@ -25,11 +29,17 @@ type GameResult struct {
 	NumOfGuesses int
 }
 
+type Bonuses [Rounds][WordLen]int
+
 type Game struct {
-	Guesses []GuessScore
-	Result  *GameResult
-	Answer  Answer
+	Guesses       []GuessScore
+	Result        *GameResult
+	LettersStatus map[rune]int
+	Bonuses       *Bonuses
+	Answer        Answer
 }
+
+var bonusTable = Bonuses{{2, 1, 3, 1, 2}, {1, 3, 1, 2, 1}, {2, 1, 1, 3, 1}, {1, 1, 2, 1, 2}, {1, 2, 1, 1, 1}, {1, 1, 1, 1, 1}}
 
 func (guessScore *GuessScore) isComplete() bool {
 	for i := 0; i < len(guessScore); i++ {
@@ -47,12 +57,12 @@ var letterScores = map[rune]int{
 	'j': 8, 'x': 8, 'q': 10, 'z': 10,
 }
 
-func scorePresentLetter(letter rune) int {
-	return letterScores[letter] / 2
+func scorePresentLetter(letter rune, bonus int) int {
+	return bonus * letterScores[letter] / 2
 }
 
-func scoreCorrectLetter(letter rune) int {
-	return letterScores[letter]
+func scoreCorrectLetter(letter rune, bonus int) int {
+	return bonus * letterScores[letter]
 }
 
 func guessSetPop(guessSet []rune, val rune) ([]rune, bool) {
@@ -65,25 +75,27 @@ func guessSetPop(guessSet []rune, val rune) ([]rune, bool) {
 	return guessSet, false
 }
 
-func (answer *Answer) scoreGuess(guess []rune) GuessScore {
+func (game *Game) scoreGuess(guess []rune) GuessScore {
+	bonus := game.Bonuses[len(game.Guesses)]
+	answer := &game.Answer
 	score := GuessScore{}
 	guessSet := make([]rune, 0, len(answer))
 	for i, letter := range guess {
 		score[i].Letter = letter
 		if letter == answer[i] {
 			score[i].Status = GuessCorrect
-			score[i].Points = scoreCorrectLetter(letter)
+			score[i].Points = scoreCorrectLetter(letter, bonus[i])
 		} else {
 			guessSet = append(guessSet, answer[i])
 		}
 	}
 	for i, letter := range guess {
-		if score[i].Status == "" {
+		if score[i].Status == 0 {
 			var ok bool
 			guessSet, ok = guessSetPop(guessSet, letter)
 			if ok {
 				score[i].Status = GuessPresent
-				score[i].Points = scorePresentLetter(letter)
+				score[i].Points = scorePresentLetter(letter, bonus[i])
 			} else {
 				score[i].Status = GuessIncorrect
 			}
@@ -92,8 +104,15 @@ func (answer *Answer) scoreGuess(guess []rune) GuessScore {
 	return score
 }
 
+func (game *Game) updateLettersStatus(score *GuessScore) {
+	for i := range score {
+		s := &score[i]
+		game.LettersStatus[s.Letter] = max(s.Status, game.LettersStatus[s.Letter])
+	}
+}
+
 func NewGame() Game {
-	game := Game{}
+	game := Game{LettersStatus: map[rune]int{}, Bonuses: &bonusTable}
 	answer := wordsAnswers[rand.Intn(len(wordsAnswers))]
 	copy(game.Answer[:], []rune(answer))
 	return game
@@ -110,7 +129,8 @@ func (game *Game) AddGuess(guessInput string) {
 	if _, ok := wordsValid[guessInput]; !ok {
 		return
 	}
-	guessScore := game.Answer.scoreGuess(guess)
+	guessScore := game.scoreGuess(guess)
+	game.updateLettersStatus(&guessScore)
 	game.Guesses = append(game.Guesses, guessScore)
 	if guessScore.isComplete() {
 		game.Result = &GameResult{FoundAnswer: true, NumOfGuesses: len(game.Guesses)}

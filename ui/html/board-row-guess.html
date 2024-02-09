@@ -1,7 +1,7 @@
 <!-- BoardRowFilled -->
 <div class="board-row">
     {{range $i, $e := .Guess}}
-    <div class="tile {{$e.Status}}">
+    <div class="tile {{mapGuessCodeToClass $e.Status}}">
         <div class="tile-letter">
             {{printf "%c" $e.Letter}}
         </div>
