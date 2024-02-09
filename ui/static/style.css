@@ -18,6 +18,7 @@ body {
     --fg-1: rgb(0, 0, 0);
     --fg-2: rgb(67, 67, 67);
     --fg-3: rgb(110, 110, 110);
+    --fg-shadow: rgba(0, 0, 0, 0.15);
     --bg-alt: rgb(77, 77, 77);
     --fg-alt: rgb(255, 255, 255);
     --fg-primary: rgb(92, 30, 143);
@@ -26,10 +27,12 @@ body {
     --bg-transp-hl: rgba(0, 0, 0, 0.07);
     --bg-neutral: rgb(209, 209, 209);
     --bg-tone-neutral: rgb(225, 225, 225);
-    --bg-tone-primary: rgb(211, 201, 227);
+    --bg-tone-primary: rgb(216, 206, 238);
     --bg-tone-primary-hl: rgb(196, 186, 214);
+    --bg-tone-secondary: rgb(243, 194, 194);
     --bg-primary: rgb(92, 30, 143);
     --bg-primary-hl: rgb(104, 61, 140);
+    --bg-secondary: rgb(137, 17, 79);
     --fg-on-primary: rgb(255, 255, 255);
 
     --bg-correct: rgb(164, 230, 131);
@@ -45,6 +48,7 @@ body.dark {
     --fg-1: rgb(255, 255, 255);
     --fg-2: rgb(209, 209, 209);
     --fg-3: rgb(161, 161, 161);
+    --fg-shadow: rgba(255, 255, 255, 0.15);
     --fg-primary: rgb(232, 203, 255);
     --fg-lines: rgb(196, 196, 196);
     --bg-transp: rgba(0, 0, 0, 0);
@@ -53,8 +57,10 @@ body.dark {
     --bg-tone-neutral: rgb(45, 45, 45);
     --bg-tone-primary: rgb(70, 56, 95);
     --bg-tone-primary-hl: rgb(79, 67, 102);
+    --bg-tone-secondary: rgb(91, 41, 41);
     --bg-primary: rgb(100, 59, 134);
     --bg-primary-hl: rgb(111, 65, 151);
+    --bg-secondary: rgb(134, 59, 88);
     --fg-on-primary: rgb(255, 255, 255);
 
     --bg-correct: rgb(65, 120, 39);
@@ -220,13 +226,18 @@ button {
     z-index: 9;
 }
 
+
+.tile-faded>.tile-letter {
+    color: var(--fg-shadow)
+}
+
 .tile-points {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 1.4em;
-    width: 1.4em;
-    font-size: min(12px, 4vw);
+    height: 1.25em;
+    width: 1.25em;
+    font-size: min(14px, 4.66vw);
     font-weight: 600;
     background-color: var(--bg-transp);
     color: var(--fg-1);
@@ -241,14 +252,24 @@ button {
     z-index: 9;
 }
 
-.tile-points.tripled {
-    border-style: none;
-    background-color: var(--bg-primary);
-    color: var(--fg-on-primary);
+.tile-bonus-3 {
+    background-color: var(--bg-tone-secondary);
+}
+
+.tile-bonus-2 {
+    background-color: var(--bg-tone-primary);
+}
+
+.tile-points-bonus-3 {
+    background-color: var(--bg-tone-secondary);
+}
+
+.tile-points-bonus-2 {
+    background-color: var(--bg-tone-primary);
 }
 
 .tile-points:empty {
-    border-style: none
+    background-color: var(--bg-transp);
 }
 
 .correct {

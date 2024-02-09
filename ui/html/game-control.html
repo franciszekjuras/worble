@@ -1,7 +1,7 @@
 <!-- worble.GameResult -->
 <div id="game-control" class="flex-v-nw ac">
     {{with .}}
-    <button class="btn btn-primary" hx-get="/play" hx-target="body">New game</button>
+    <button class="btn btn-primary" hx-delete="/play" hx-target="body">New game</button>
     {{else}}
     <button class="btn btn-outlined" hx-delete="/play" hx-target="body">New game</button>
     {{end}}

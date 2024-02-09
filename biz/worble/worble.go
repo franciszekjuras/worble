@@ -118,7 +118,7 @@ func NewGame() Game {
 	return game
 }
 
-func (game *Game) AddGuess(guessInput string) {
+func (game *Game) SubmitGuess(guessInput string) {
 	if game.Result != nil {
 		return
 	}
@@ -134,6 +134,10 @@ func (game *Game) AddGuess(guessInput string) {
 	game.Guesses = append(game.Guesses, guessScore)
 	if guessScore.isComplete() {
 		game.Result = &GameResult{FoundAnswer: true, NumOfGuesses: len(game.Guesses)}
+		for i := len(game.Guesses); i < Rounds; i++ {
+			guessScore := game.scoreGuess(guess)
+			game.Guesses = append(game.Guesses, guessScore)
+		}
 	} else if len(game.Guesses) == Rounds {
 		game.Result = &GameResult{FoundAnswer: false}
 	}

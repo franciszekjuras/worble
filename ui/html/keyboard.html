@@ -1,20 +1,20 @@
 <!-- uimodels.Keyboard -->
 
 <div id="keyboard" class="flex-v-nw ac jc">
-    {{range $row, $keys := .Keys}}
+    {{- range $row, $keys := .Keys}}
     <div class="flex-h-nw ac jc">
-        {{if eq $row (sub (len $.Keys) 1)}}
+        {{- if eq $row (sub (len $.Keys) 1)}}
         <button class="key key-normal key-wide">⌫</button>
-        {{end}}
-        {{range $keys}}
-        <button class="key {{with (index $.KeysStatus .)}}key-{{mapGuessCodeToClass .}}{{end}}"
+        {{- end}}
+        {{- range $keys}}
+        <button class="key {{with (index $.KeysStatus .)}}key-{{mapGuessCodeToClass .}}{{end}}" {{if 0}}{{end -}}
             @click='$dispatch("keyboard-input", {{printf "%c" .}})'>
-            {{printf "%c" .}}
+            {{- printf "%c" . -}}
         </button>
-        {{end}}
-        {{if eq $row (sub (len $.Keys) 1)}}
+        {{- end}}
+        {{- if eq $row (sub (len $.Keys) 1)}}
         <button class="key key-normal key-wide"><span class="text-small">Enter</span></button>
-        {{end}}
+        {{- end}}
     </div>
-    {{end}}
+    {{- end}}
 </div>

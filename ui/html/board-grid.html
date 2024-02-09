@@ -1,14 +1,14 @@
 <!-- map[string]BoardRow* -->
 <div class="board-grid">
-    {{range .}}
+    {{- range . -}}
     {{with .Filled}}
-    {{template "board-row-guess.html" .}}
+    {{- template "board-row-guess.html" . -}}
     {{else}}
     {{with .Input}}
-    {{template "board-row-input.html" .}}
+    {{- template "board-row-input.html" . -}}
     {{else}}
     {{with .Empty}}
-    {{template "board-row-empty.html" .}}
+    {{- template "board-row-empty.html" . -}}
     {{end}}{{end}}{{end}}
-    {{end}}
+    {{- end -}}
 </div>

@@ -28,16 +28,16 @@ func (app *App) PlayPost(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 	input := r.Form.Get("guess")
-	app.Game.AddGuess(input)
+	app.Game.SubmitGuess(input)
 
 	err = app.Ts.ExecuteTemplate(w, "game.html", uimodels.MakeGame(&app.Game))
 	if err != nil {
 		log.Println(err.Error())
 	}
 
-	if app.Game.Result != nil {
-		app.Game = worble.NewGame()
-	}
+	// if app.Game.Result != nil {
+	// 	app.Game = worble.NewGame()
+	// }
 }
 
 func (app *App) PlayDelete(w http.ResponseWriter, r *http.Request) {
