@@ -5,6 +5,7 @@ import (
 
 	"worble.ow6.foo/appui/uimodels"
 	"worble.ow6.foo/com/templatefuncs"
+	"worble.ow6.foo/ui"
 )
 
 func InitTemplates() (*template.Template, error) {
@@ -13,5 +14,5 @@ func InitTemplates() (*template.Template, error) {
 		"span":                templatefuncs.Span,
 		"mapGuessCodeToClass": uimodels.MapGuessCodeToClass,
 	}
-	return template.New("").Funcs(funcMap).ParseGlob("./ui/html/*.html")
+	return template.New("").Funcs(funcMap).ParseFS(ui.Files, "html/*.html")
 }
