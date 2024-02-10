@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"worble.ow6.foo/app/handlers"
 	"worble.ow6.foo/appui/uitempl"
@@ -25,7 +26,11 @@ func main() {
 	fileServer := http.FileServer(http.FS(ui.Files))
 	mux.Handle("/static/", fileServer)
 
-	log.Println("Starting server on :4001")
-	err = http.ListenAndServe(":4001", mux)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Println("Listening on", port)
+	err = http.ListenAndServe(":"+port, mux)
 	log.Fatal(err)
 }
