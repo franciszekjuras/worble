@@ -1,14 +1,14 @@
 package main
 
 import (
+	"context"
 	"log"
-	"net/http"
 	"os"
 
-	"worble.ow6.foo/app/handlers"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"worble.ow6.foo/app/web"
 	"worble.ow6.foo/appui/uitempl"
 	"worble.ow6.foo/biz/worble"
-	"worble.ow6.foo/ui"
 )
 
 func main() {
@@ -17,20 +17,22 @@ func main() {
 		log.Fatalln("Failed to initialize templates: ", err)
 	}
 
-	app := handlers.App{Ts: ts, Game: worble.NewGame()}
+	db, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatalf("Unable to connect to database: %v\n", err)
+	} else {
+		log.Println("Connected to database")
+	}
+	defer db.Close()
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.Home)
-	mux.HandleFunc("/play", app.Play)
-
-	fileServer := http.FileServer(http.FS(ui.Files))
-	mux.Handle("/static/", fileServer)
+	app := web.App{Ts: ts, Game: worble.NewGame()}
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-	log.Println("Listening on", port)
-	err = http.ListenAndServe(":"+port, mux)
-	log.Fatal(err)
+	err = app.Run(port)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
