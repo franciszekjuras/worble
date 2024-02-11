@@ -7,5 +7,9 @@
     </div>
     {{template "game-control.html" .Result}}
     {{template "board-grid.html" .Board}}
+    {{with .Result }}
+    {{template "score.html" .}}
+    {{else}}
     {{template "keyboard.html" .Keyboard}}
+    {{end}}
 </div>

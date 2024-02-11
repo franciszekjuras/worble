@@ -27,6 +27,7 @@ type GuessScore [WordLen]Guess
 type GameResult struct {
 	FoundAnswer  bool
 	NumOfGuesses int
+	Points       int
 }
 
 type Bonuses [Rounds][WordLen]int
@@ -40,6 +41,13 @@ type Game struct {
 }
 
 var bonusTable = Bonuses{{2, 1, 3, 1, 2}, {1, 3, 1, 2, 1}, {2, 1, 1, 3, 1}, {1, 1, 2, 1, 2}, {1, 2, 1, 1, 1}, {1, 1, 1, 1, 1}}
+
+func NewGame() Game {
+	game := Game{LettersStatus: map[rune]int{}, Bonuses: &bonusTable}
+	answer := wordsAnswers[rand.Intn(len(wordsAnswers))]
+	copy(game.Answer[:], []rune(answer))
+	return game
+}
 
 func (guessScore *GuessScore) isComplete() bool {
 	for i := 0; i < len(guessScore); i++ {
@@ -111,11 +119,14 @@ func (game *Game) updateLettersStatus(score *GuessScore) {
 	}
 }
 
-func NewGame() Game {
-	game := Game{LettersStatus: map[rune]int{}, Bonuses: &bonusTable}
-	answer := wordsAnswers[rand.Intn(len(wordsAnswers))]
-	copy(game.Answer[:], []rune(answer))
-	return game
+func (game *Game) totalScore() int {
+	score := 0
+	for _, guess := range game.Guesses {
+		for _, letter := range guess {
+			score += letter.Points
+		}
+	}
+	return score
 }
 
 func (game *Game) SubmitGuess(guessInput string) {
@@ -133,11 +144,12 @@ func (game *Game) SubmitGuess(guessInput string) {
 	game.updateLettersStatus(&guessScore)
 	game.Guesses = append(game.Guesses, guessScore)
 	if guessScore.isComplete() {
-		game.Result = &GameResult{FoundAnswer: true, NumOfGuesses: len(game.Guesses)}
+		numofGuesses := len(game.Guesses)
 		for i := len(game.Guesses); i < Rounds; i++ {
 			guessScore := game.scoreGuess(guess)
 			game.Guesses = append(game.Guesses, guessScore)
 		}
+		game.Result = &GameResult{FoundAnswer: true, NumOfGuesses: numofGuesses, Points: game.totalScore()}
 	} else if len(game.Guesses) == Rounds {
 		game.Result = &GameResult{FoundAnswer: false}
 	}

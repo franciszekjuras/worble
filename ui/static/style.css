@@ -1,6 +1,10 @@
 * {
+    --font-size-normal: 18px;
     --font-size-normal: 14px;
     --font-size-small: 12px;
+
+    --font-weight-normal: 400;
+    --font-weight-bold: 600;
 
     box-sizing: border-box;
     margin: 0;
@@ -8,7 +12,7 @@
     padding: 0;
     font-family: 'Open Sans', sans-serif;
     font-size: var(--font-size-normal);
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     color: var(--fg-1);
 }
 
@@ -18,7 +22,7 @@ body {
     --fg-1: rgb(0, 0, 0);
     --fg-2: rgb(67, 67, 67);
     --fg-3: rgb(110, 110, 110);
-    --fg-shadow: rgba(0, 0, 0, 0.15);
+    --fg-shadow: rgba(0, 0, 0, 0.3);
     --bg-alt: rgb(77, 77, 77);
     --fg-alt: rgb(255, 255, 255);
     --fg-primary: rgb(92, 30, 143);
@@ -26,7 +30,7 @@ body {
     --bg-transp: rgba(0, 0, 0, 0);
     --bg-transp-hl: rgba(0, 0, 0, 0.07);
     --bg-neutral: rgb(209, 209, 209);
-    --bg-tone-neutral: rgb(225, 225, 225);
+    --bg-tone-neutral: rgb(219, 219, 219);
     --bg-tone-primary: rgb(216, 206, 238);
     --bg-tone-primary-hl: rgb(196, 186, 214);
     --bg-tone-secondary: rgb(243, 194, 194);
@@ -48,7 +52,7 @@ body.dark {
     --fg-1: rgb(255, 255, 255);
     --fg-2: rgb(209, 209, 209);
     --fg-3: rgb(161, 161, 161);
-    --fg-shadow: rgba(255, 255, 255, 0.15);
+    --fg-shadow: rgba(255, 255, 255, 0.3);
     --fg-primary: rgb(232, 203, 255);
     --fg-lines: rgb(196, 196, 196);
     --bg-transp: rgba(0, 0, 0, 0);
@@ -74,6 +78,7 @@ body {
 
 button {
     cursor: pointer;
+    -webkit-appearance: none;
 }
 
 .flex-v-nw {
@@ -94,6 +99,14 @@ button {
     align-items: center;
 }
 
+.fw {
+    width: 100%;
+}
+
+.fh {
+    height: 100%;
+}
+
 .btn {
     margin: 5px 10px;
     padding: 6px 10px;
@@ -106,6 +119,7 @@ button {
     color: var(--fg-primary);
     border-style: solid;
     border-width: 1px;
+    padding: 5px 9px;
     border-color: var(--fg-lines);
 }
 
@@ -135,9 +149,10 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.25em 0.15em;
-    height: 2.2em;
-    width: 2em;
+    margin: 3px 2px;
+    flex: 1 1;
+    height: 40px;
+    /* width: 2em; */
     font-weight: 600;
     border-radius: 6px;
     text-transform: capitalize;
@@ -159,11 +174,23 @@ button {
 }
 
 .key-wide {
-    width: 3.2em;
+    flex: 1.5 1;
+}
+
+#keyboard {
+    width: min(360px, 100vw);
 }
 
 .text-small {
     font-size: var(--font-size-small);
+}
+
+.text-big {
+    font-size: var(--font-size-big);
+}
+
+.text-bold {
+    font-weight: var(--font-weight-bold);
 }
 
 .logo {
@@ -184,8 +211,35 @@ button {
 .card {
     background-color: var(--bg-2);
     border-radius: 10px;
-    width: 100%;
-    height: 100px;
+    margin: 5px;
+}
+
+.score {
+    letter-spacing: 10px;
+    font-size: 40px;
+    font-weight: 700;
+    margin: 6px;
+    padding: 0px 5px 0px 15px;
+    border-radius: 6px;
+    background-color: var(--bg-primary);
+    color: var(--fg-on-primary);
+}
+
+.score-label {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: var(--bg-tone-primary);
+}
+
+.message {
+    margin: 5px 10px;
+    padding: 2px 5px;
+    border-radius: 6px;
+    background-color: var(--bg-tone-neutral);
+    font-size: 20px;
 }
 
 .board-grid {

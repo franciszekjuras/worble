@@ -1,0 +1,12 @@
+<!-- *worble.GameResult -->
+<div class="flex-v-nw ac jc">
+    {{if .FoundAnswer}}
+    <div class="flex-h-nw ac jc">
+        <div class="score-label">SCORE</div>
+        <div class="score">{{.Points}}</div>
+    </div>
+    <div class="message">Congratulations!</div>
+    {{else}}
+    <div class="message">D:</div>
+    {{end}}
+</div>

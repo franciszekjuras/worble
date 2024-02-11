@@ -2,7 +2,7 @@
 
 <div id="keyboard" class="flex-v-nw ac jc">
     {{- range $row, $keys := .Keys}}
-    <div class="flex-h-nw ac jc">
+    <div class="flex-h-nw ac jc fw fh">
         {{- if eq $row (sub (len $.Keys) 1)}}
         <button class="key key-normal key-wide">⌫</button>
         {{- end}}
