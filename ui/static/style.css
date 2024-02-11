@@ -78,7 +78,6 @@ body {
 
 button {
     cursor: pointer;
-    -webkit-appearance: none;
 }
 
 .flex-v-nw {
@@ -179,6 +178,7 @@ button {
 
 #keyboard {
     width: min(360px, 100vw);
+    touch-action: manipulation
 }
 
 .text-small {
