@@ -1,19 +1,20 @@
 <!-- uimodels.Keyboard -->
 
-<div id="keyboard" class="flex-v-nw ac jc">
+<div id="keyboard" class="flex-v-nw ac jc" x-data>
     {{- range $row, $keys := .Keys}}
     <div class="flex-h-nw ac jc fw fh">
         {{- if eq $row (sub (len $.Keys) 1)}}
-        <button class="key key-normal key-wide">⌫</button>
+        <button class="key key-normal key-wide" @click='$dispatch("keyboard-backspace")'>⌫</button>
         {{- end}}
         {{- range $keys}}
         <button class="key {{with (index $.KeysStatus .)}}key-{{mapGuessCodeToClass .}}{{end}}" {{if 0}}{{end -}}
-            @click='$dispatch("keyboard-input", {{printf "%c" .}})'>
+            @click='$dispatch("keyboard-input", "{{printf "%c" .}}")'>
             {{- printf "%c" . -}}
         </button>
         {{- end}}
         {{- if eq $row (sub (len $.Keys) 1)}}
-        <button class="key key-normal key-wide"><span class="text-small">Enter</span></button>
+        <button class="key key-normal key-wide" @click='$dispatch("keyboard-enter")'><span
+                class="text-small">Enter</span></button>
         {{- end}}
     </div>
     {{- end}}

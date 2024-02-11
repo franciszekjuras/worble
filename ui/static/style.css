@@ -29,7 +29,6 @@ body {
     --fg-lines: rgb(63, 63, 63);
     --bg-transp: rgba(0, 0, 0, 0);
     --bg-transp-hl: rgba(0, 0, 0, 0.07);
-    --bg-neutral: rgb(209, 209, 209);
     --bg-tone-neutral: rgb(219, 219, 219);
     --bg-tone-primary: rgb(216, 206, 238);
     --bg-tone-primary-hl: rgb(196, 186, 214);
@@ -39,6 +38,8 @@ body {
     --bg-secondary: rgb(137, 17, 79);
     --fg-on-primary: rgb(255, 255, 255);
 
+    --bg-key: rgb(206, 206, 206);
+    --bg-key-incorrect: rgb(226, 226, 226);
     --bg-correct: rgb(164, 230, 131);
     --bg-present: rgb(255, 215, 141);
     --bg-incorrect: rgb(212, 212, 212);
@@ -57,7 +58,6 @@ body.dark {
     --fg-lines: rgb(196, 196, 196);
     --bg-transp: rgba(0, 0, 0, 0);
     --bg-transp-hl: rgba(255, 255, 255, 0.05);
-    --bg-neutral: rgb(77, 77, 77);
     --bg-tone-neutral: rgb(45, 45, 45);
     --bg-tone-primary: rgb(70, 56, 95);
     --bg-tone-primary-hl: rgb(79, 67, 102);
@@ -156,12 +156,12 @@ button {
     font-weight: 600;
     border-radius: 6px;
     text-transform: capitalize;
-    background-color: var(--bg-neutral);
+    background-color: var(--bg-key);
     color: var(--fg-1);
 }
 
 .key-incorrect {
-    background-color: var(--bg-tone-neutral);
+    background-color: var(--bg-key-incorrect);
     color: var(--fg-3);
 }
 

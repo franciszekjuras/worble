@@ -17,10 +17,16 @@
                 return '';
             }
             return this.getPoints(l) * bonus;
+        },
+        handleKey(key) {
+            if(this.input.length < 5 && key.length == 1 && 'qwertyuiopasdfghjklzxcvbnm'.includes(key)) {
+                this.input.push(key);
+            }
         }
-    }" hx-trigger="keydown[key=='Enter'] from:body" hx-post="/play" hx-target="#game" hx-include="[name='guess']"
-    hx-swap="outerHTML" @keydown.backspace.window="input.pop();"
-    @keydown.window='if(input.length < 5 && $event.key.length == 1 && "qwertyuiopasdfghjklzxcvbnm".includes($event.key)){input.push($event.key);}'>
+    }" hx-trigger="keydown[key=='Enter'] from:body, keyboard-enter from:body" hx-post="/play" hx-target="#game"
+    hx-include="[name='guess']" hx-swap="outerHTML" @keydown.backspace.window="input.pop();"
+    @keyboard-backspace.window="input.pop();" @keydown.window='handleKey($event.key);'
+    @keyboard-input.window="handleKey($event.detail)">
     {{range span 5}}
     {{- $bonus := index $.Bonus .}}
     <div class="tile {{if ne $bonus 1}}tile-bonus-{{$bonus}}{{end}}">
