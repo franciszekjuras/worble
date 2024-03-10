@@ -30,3 +30,6 @@ psql:
 
 app-run:
 	DATABASE_URL=$(DATABASE_URL) go run ./app/main.go
+
+migrate-up:
+	migrate -path=./migrations -database=$(DATABASE_URL) up

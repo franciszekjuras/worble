@@ -7,10 +7,16 @@ import (
 )
 
 func (app *App) routes() http.Handler {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.Home)
-	mux.HandleFunc("/play", app.Play)
+	statefulMiddleware := app.SessionManager.LoadAndSave
 
+	mux := http.NewServeMux()
+	// stateless routes
+	mux.HandleFunc("/", app.Home)
+
+	// stateful routes
+	mux.Handle("/play", statefulMiddleware(http.HandlerFunc(app.Play)))
+
+	//static routes
 	fileServer := http.FileServer(http.FS(ui.Files))
 	mux.Handle("/static/", fileServer)
 	return mux

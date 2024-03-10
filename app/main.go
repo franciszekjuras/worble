@@ -1,13 +1,16 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
+	"time"
 
-	// "github.com/jackc/pgx/v5/pgxpool"
+	"github.com/alexedwards/scs/pgxstore"
+	"github.com/alexedwards/scs/v2"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"worble.ow6.foo/app/web"
 	"worble.ow6.foo/appui/uitempl"
-	"worble.ow6.foo/biz/worble"
 )
 
 func main() {
@@ -16,15 +19,27 @@ func main() {
 		log.Fatalln("Failed to initialize templates: ", err)
 	}
 
-	// db, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
-	// if err != nil {
-	// 	log.Fatalf("Unable to connect to database: %v\n", err)
-	// } else {
-	// 	log.Println("Connected to database")
-	// }
-	// defer db.Close()
+	db, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatalf("Unable to initialize database connection pool: %v\n", err)
+	}
+	defer db.Close()
 
-	app := web.App{Ts: ts, Game: worble.NewGame()}
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	err = db.Ping(ctx)
+	if err != nil {
+		log.Fatalf("Unable to connect to the database: %v\n", err)
+	} else {
+		log.Println("Connected to the database")
+	}
+
+	sessionManager := scs.New()
+	sessionManager.Store = pgxstore.New(db)
+	sessionManager.Lifetime = 12 * time.Hour
+
+	app := web.App{Ts: ts, SessionManager: sessionManager}
 
 	port := os.Getenv("PORT")
 	if port == "" {
