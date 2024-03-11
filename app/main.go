@@ -19,7 +19,14 @@ func main() {
 		log.Fatalln("Failed to initialize templates: ", err)
 	}
 
-	db, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	config, err := pgxpool.ParseConfig(os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatalf("Error parsing database config: %v\n", err)
+	}
+	config.MinConns = 0
+	config.MaxConns = 4
+	config.MaxConnIdleTime = 10 * time.Minute
+	db, err := pgxpool.NewWithConfig(context.Background(), config)
 	if err != nil {
 		log.Fatalf("Unable to initialize database connection pool: %v\n", err)
 	}
@@ -36,7 +43,7 @@ func main() {
 	}
 
 	sessionManager := scs.New()
-	sessionManager.Store = pgxstore.New(db)
+	sessionManager.Store = pgxstore.NewWithCleanupInterval(db, 2*time.Hour) // must be more than db scale to zero time (one hour)
 	sessionManager.Lifetime = 12 * time.Hour
 
 	app := web.App{Ts: ts, SessionManager: sessionManager}

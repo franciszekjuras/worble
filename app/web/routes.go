@@ -7,6 +7,7 @@ import (
 )
 
 func (app *App) routes() http.Handler {
+	// TODO: add session renewal middleware
 	statefulMiddleware := app.SessionManager.LoadAndSave
 
 	mux := http.NewServeMux()
